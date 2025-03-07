@@ -6,36 +6,29 @@
 std::ostream &operator<<(std::ostream &out, const SpriteAnimado &sa)
 {
 	//printa apenas o sprite atual da animacao
-	out << sa.sprites[sa.iSpriteAnim] << std::endl;
+	std::cout << sa.sprites[sa.iSpriteAnim] << std::endl;
 
 	return out;
 }
 
-SpriteAnimado::SpriteAnimado(std::string nameFile, unsigned velAnim, COR::Cor cor):SpriteBase(cor)
+SpriteAnimado::SpriteAnimado(std::string nameFile, unsigned velAnim):SpriteBase()
 { 
-	int ns, altura;
+	unsigned ns;
 	
 	this->velAnim = this->stepAnim = velAnim;
 	this->iSpriteAnim = 0;
 	
 	std::ifstream fanm(nameFile.c_str(),std::ios::in);
 	
-	if (!fanm.is_open())
-		throw std::runtime_error("Erro ao ler arquivo de SpriteAnimado...");
-	
-	if (!(fanm >> numSprites >> altura))
-		throw std::runtime_error("Erro na estrutura de arquivo de SpriteAnimado...");
-	
+	fanm >> numSprites >> alturaSprite;
 	fanm.ignore(1,'\n');	// ignorando o \n que ficou no input da linha anterior
 	
 	ns = numSprites;
 	while (ns--)
 	{
-		try {
-			sprites.push_back(Sprite(fanm,altura,cor));
-		} catch(std::runtime_error &e) {
-			throw std::runtime_error("Erro na estrutura de arquivo de SpriteAnimado. Sprite incompleto...");
-		}
+		sprites.push_back(Sprite(fanm,alturaSprite));
+		if (sprites.back().getLargura() > this->largura)
+			this->largura = sprites.back().getLargura();
 	}
 	
 	fanm.close();
@@ -58,20 +51,14 @@ void SpriteAnimado::update()
 
 std::string SpriteAnimado::getLinha(unsigned l) const
 {
-	if (l < sprites[iSpriteAnim].getAltura())
+	if (l < sprites[0].getAltura())
 		return sprites[iSpriteAnim].getLinha(l);
 	else 
 		return "";
 }
 
-void SpriteAnimado::putAt(const SpriteBase &sprt, int l, int c)
+void SpriteAnimado::putAt(const SpriteBase &sprt, unsigned l, unsigned c)
 {
 	for (int i = 0 ; i < sprites.size() ; i++)
 		sprites[i].putAt(sprt,l,c);
-}
-
-void SpriteAnimado::setCor(COR::Cor cor)
-{
-	for (int i = 0 ; i < sprites.size() ; i++)
-		sprites[i].colorHandler.setCor(cor);
 }

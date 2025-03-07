@@ -1,7 +1,7 @@
 #ifndef FASE_HPP
 #define FASE_HPP
 
-#include "Core/SpriteBase.hpp"
+#include "SpriteBase.hpp"
 #include "SpriteBuffer.hpp"
 #include "ObjetoDeJogo.hpp"
 #include "Sprite.hpp"
@@ -26,7 +26,8 @@ public:
 	};
 
 
-	Fase(std::string name, const SpriteBase &bkg) : name(name),background(bkg.copia()) {}
+	Fase(std::string name, const Sprite &bkg) : name(name),background(new Sprite(bkg)) {}
+	Fase(std::string name, const SpriteAnimado &bkg) : name(name),background(new SpriteAnimado(bkg)) {}
 	virtual ~Fase();
 	
 	Fase(const Fase &f);
@@ -41,7 +42,7 @@ public:
 	//RenderBase
 	virtual void init() = 0;
 	virtual void update();
-	virtual void draw(SpriteBase &screen, int x = 0, int y = 0);
+	virtual void draw(SpriteBase &screen, unsigned x = 0, unsigned y = 0);
 
 protected:
 	std::string name;

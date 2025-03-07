@@ -2,7 +2,11 @@
 
 Fase::Fase(const Fase &f) : name(f.name)
 {
-	background = f.background->copia();
+	//trick
+	if (f.background->whoami() == "Sprite")
+		background = new Sprite(*(dynamic_cast<Sprite*>(f.background)));
+	else if (f.background->whoami() == "SpriteAnimado")
+		background = new SpriteAnimado(*(dynamic_cast<SpriteAnimado*>(f.background)));
 	
 	for (auto it = f.objs.begin() ; it != f.objs.end() ; ++it)
 		this->objs.push_back( new ObjetoDeJogo(**it) );
@@ -16,7 +20,10 @@ const Fase &Fase::operator=(const Fase &f)
 		
 		delete this->background;
 		//trick
-		background = f.background->copia();
+		if (f.background->whoami() == "Sprite")
+			background = new Sprite(*(dynamic_cast<Sprite*>(f.background)));
+		else if (f.background->whoami() == "SpriteAnimado")
+			background = new SpriteAnimado(*(dynamic_cast<SpriteAnimado*>(f.background)));
 		
 		for (auto it = this->objs.begin() ; it != this->objs.end() ; ++it)
 			delete *it;
@@ -46,7 +53,7 @@ void Fase::update()
 		(*it)->update();
 }
 
-void Fase::draw(SpriteBase &screen, int x, int y)
+void Fase::draw(SpriteBase &screen, unsigned x, unsigned y)
 {
 	background->draw(screen,0,0);
 	for (auto it = objs.begin() ; it != objs.end() ; ++it)

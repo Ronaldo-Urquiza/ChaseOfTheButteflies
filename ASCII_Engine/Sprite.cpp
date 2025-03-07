@@ -1,24 +1,26 @@
 #include "Sprite.hpp"
 #include <fstream>
 
-#include <stdexcept>
-#include <algorithm>
-
 std::ostream &operator<<(std::ostream &out, const Sprite &s)
 {
-	unsigned li{0};
 	for (auto it = s.sprt.begin() ; it != s.sprt.end() ; ++it)
-		out << s.colorHandler.colorir(*it, li++) << std::endl;
+		std::cout << *it << std::endl;
 	
 	return out;
 }
 
-Sprite::Sprite(std::string nameFile, COR::Cor cor) : SpriteBase(cor)
+
+Sprite::Sprite(std::string nameFile) : SpriteBase()
 {
 	this->loadFromFile(nameFile);
 }
 
-Sprite::Sprite(std::ifstream &fsprt, int n, COR::Cor cor) : SpriteBase(cor)
+Sprite::Sprite(std::ifstream &fsprt) : SpriteBase()
+{
+	this->loadFromFile(fsprt);
+}
+
+Sprite::Sprite(std::ifstream &fsprt, unsigned n) : SpriteBase()
 {
 	this->loadFromFile(fsprt, n);
 }
@@ -32,32 +34,59 @@ void Sprite::loadFromFile(std::string nameFile)
 	fsprt.close();
 }
 
-void Sprite::loadFromFile(std::ifstream &fsprt, int n)
+void Sprite::loadFromFile(std::ifstream &fsprt)
 {
-	bool flagIgnoreN = (n == -1);
-	std::string tmp;
-	
 	this->sprt.clear();
-	this->limits.clear();
-	this->colorHandler.clear();
 	
 	if (!fsprt.is_open())
-		throw std::runtime_error("Erro ao ler arquivo de Sprite...");
+	{	
+		std::cout << "Erro ao ler arquivo..." << std::endl;
+		return;
+	}
 	
-	while(getline(fsprt,tmp) && (flagIgnoreN || n--) )
+	this->largura = 0;
+	
+	std::string tmp;
+	
+	while(getline(fsprt,tmp))
 	{
 		sprt.push_back(tmp);
 		
-		limits.push_back(LIMITS(tmp.find_first_not_of(' '),tmp.find_last_not_of(' '),tmp.length()));
+		if (tmp.length() > this->largura)
+			this->largura = tmp.length();
 		
-		if (limits.back().larg != 0)
-			colorHandler.pushCorLinha( limits.back().front, limits.back().end + 1 );
-		else
-			colorHandler.pushLinhaSemCor();
 	}
 	
-	if ( (!fsprt && n > 0) || (fsprt && n >= 0) )
-		throw std::runtime_error("Sprite Incompleto...");
+	this->alturaSprite = this->sprt.size();
+}
+
+void Sprite::loadFromFile(std::ifstream &fsprt, unsigned n)
+{
+	this->sprt.clear();
+	
+	if (!fsprt.is_open())
+	{	
+		std::cout << "Erro ao ler arquivo..." << std::endl;
+		return;
+	}
+	
+	this->largura = 0;
+	
+	std::string tmp;
+	
+	//std::cout << "Carregado Sprite..." << n << std::endl; //apagar
+	
+	while(getline(fsprt,tmp) && n--)
+	{
+		sprt.push_back(tmp);
+		
+		//std::cout << ">" << tmp << "<" << std::endl; //apagar
+		
+		if (tmp.length() > this->largura)
+			this->largura = tmp.length();
+	}
+	
+	this->alturaSprite = this->sprt.size();
 }
 
 std::string Sprite::getLinha(unsigned l) const
@@ -68,26 +97,35 @@ std::string Sprite::getLinha(unsigned l) const
 		return "";
 }
 
-void Sprite::putAt(const SpriteBase &sprt, int l, int c)
+void Sprite::putAt(const SpriteBase &sprt, unsigned l, unsigned c)
 {
+	//std::cout << "Entrei..." << std::endl; //apagar
+	if (c >= this->largura)
+		return;
+	
+	//std::cout << "Passei da largura..." << std::endl; //apagar
+	
+	//std::cout << sprt.getAltura() << std::endl; //apagar
 	for (int i = 0 ; i < sprt.getAltura() ; i++)
 	{
-		if (i + l < 0) 					//se a linha atual estiver antes do sprite, avança
-			continue;
+		//std::cout << "No looop..." << std::endl; //apagar
 		
-		if (i + l >= this->getAltura()) //se o pedaço do sprite ultrapassar a altura do sprite destino, para
+		if (i + l >= this->sprt.size())
 			break;
 		
-		if (c >= this->getLargura(i))	//se o objeto a ser desenhando estiver além da largura do destino, faz nada.
-			break;
+		//std::cout << "Passei do if da linha..." << std::endl; //apagar
+			
+		std::string linha = sprt.getLinha(i);
+		std::string alvo = this->sprt[l+i];
+		this->sprt[l+i] = alvo.substr(0,c);
+		this->sprt[l+i] += linha.substr(0,alvo.length()-c);
+		this->sprt[l+i] += alvo.substr(c+linha.length(),alvo.length()-(c+linha.length()));
 		
-		if (!sprt.getLimits()[i].largLinha) //se linha do objeto foz vazia, faz nada
-			continue;
+		//if (c+linha.length() < alvo.length())
+		//	this->sprt[l+i] += alvo.substr(c+linha.length(),alvo.length()-(c+linha.length()));
 		
-		for (int si = sprt.getLimits()[i].front ; si <= sprt.getLimits()[i].end ; si++) {
-			if (c + si >= 0 && c + si < this->limits[i].largLinha)
-				this->sprt[l+i][c+si] = sprt.getLinha(i)[si];
-		}
+		
+		//std::cout << this->sprt[l+i] << std::endl;
 	}
-	colorHandler.mergeCores(sprt.getColorHandler(),l,c);
+	//std::cout << "Saindo..." << std::endl; //apagar
 }

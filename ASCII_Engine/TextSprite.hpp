@@ -2,21 +2,22 @@
 #define TEXTSPRITE_HPP
 
 #include <string>
-#include "Core/SpriteBase.hpp"
+#include "SpriteBase.hpp"
 
+//MUDAR PARA SPRITETEXT - inclusive whoami
 class TextSprite : public SpriteBase
 {
+	//temporarios
 	friend std::ostream &operator<<(std::ostream &, const TextSprite &);
 public:
-	TextSprite(std::string text, COR::Cor cor = COR::PADRAO):SpriteBase(cor){setText(text);}
-	
+	TextSprite(std::string text):SpriteBase(0,1) {setText(text);}
 	~TextSprite(){}
 	
-	void setText(std::string text);
+	void setText(std::string text) {this->text = text;this->largura = text.length();} //Update
 	
 	//SpriteBase
-	virtual void putAt(const SpriteBase &, int = 0, int = 0);
-	virtual SpriteBase *copia() const { return new TextSprite(*this);}
+	virtual void putAt(const SpriteBase &, unsigned = 0, unsigned = 0);
+	virtual std::string whoami() const {return "TextSprite";}
 	
 	//RenderBase
 	virtual void init() {};
