@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include "FaseStart.hpp"
+#include "FaseLevel1.hpp"
 
 #include "ASCII_Engine/Sprite.hpp"
 #include "ASCII_Engine/SpriteAnimado.hpp"
@@ -14,14 +15,21 @@ public:
 	
 	static void run()
 	{
-		SpriteBuffer buffer(250,65);
+		SpriteBuffer buffer(250,61);
 	
 		FaseStart start("FaseStart",SpriteAnimado("rsc/BackgroundFloresta.anm",2));
+		FaseLevel1 fase1("Fase1",SpriteAnimado("rsc/BackgroundFase1.anm",2));
 		
-		start.init();
-		start.run(buffer);
+		fase1.init();
+		fase1.run(buffer);
+		buffer.clear();
+		
+		//fase1.init();
+		//int ret1 = fase1.run(buffer);
+		
 	}
 
 };
 
 #endif // GAME_HPP
+

@@ -5,10 +5,10 @@
 void FaseStart::init()
 {	
 	//Objetos de jogo
-	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingRight.anm",1),0,0);
+	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingRight.anm",1),20,160);
 	objs.push_back(hero);
 	
-	tapetePortal = new ObjetoDeJogo("TapetePortal",SpriteBuffer(2,20),22,219);
+	tapetePortal = new ObjetoDeJogo("TapetePortal",SpriteBuffer(2,20),22,215);
 	objs.push_back(tapetePortal);
 }
 
@@ -34,7 +34,7 @@ unsigned FaseStart::run(SpriteBuffer &screen)
 		//checando portal
 		if (hero->colideCom(*tapetePortal)){
 			int teste = 1;
-			return Fase::END_GAME;
+			return Fase::LEVEL_COMPLETE;
 		}
 		
 		if (ent == "w" && hero->getPosL() > 10 && teste == 0)
@@ -53,6 +53,7 @@ unsigned FaseStart::run(SpriteBuffer &screen)
 		draw(screen);
 		system("clear");
 		show(screen);
+		screen.clear();
 	}
 	
 	return Fase::END_GAME; // não necessário
