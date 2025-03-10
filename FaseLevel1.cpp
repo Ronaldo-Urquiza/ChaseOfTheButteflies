@@ -103,11 +103,11 @@ unsigned FaseLevel1::run(SpriteBuffer &screen)
 					caixaTexto.setText("Muito bem! Você é observador! Agora, veja o poder do meu feitiço...");
 					caixaTexto.show();
 
-					update();
-					draw(screen);
 					system("clear");
-					show(screen);
 					screen.clear();
+					show(screen);
+					
+					std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
 					return Fase::LEVEL_COMPLETE; // O jogador atravessa o rio!
 				} 

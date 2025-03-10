@@ -1,26 +1,24 @@
-#include "FaseStart.hpp"
-
-#include <iostream>
+#include "FaseLevel2.hpp"
 #include <thread>  // Adiciona essa linha no topo do arquivo
 #include <chrono>  // Para definir a duração do sleep
 #include "ASCII_Engine/TextBox.hpp"
 
-void FaseStart::init()
+#include <iostream>
+
+void FaseLevel2::init()
 {	
 	//Objetos de jogo
-	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingRight.anm",1),20,160);
+	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingLeft.anm",1),35,200);
 	objs.push_back(hero);
 	
-	tapetePortal = new ObjetoDeJogo("TapetePortal",SpriteBuffer(2,20),22,215);
-	objs.push_back(tapetePortal);
+	tapeteHotel = new ObjetoDeJogo("TapeteHotel",SpriteBuffer(1,5),32,71);
+	objs.push_back(tapeteHotel);
+	
 }
 
-unsigned FaseStart::run(SpriteBuffer &screen)
+unsigned FaseLevel2::run(SpriteBuffer &screen)
 {
 	std::string ent;
-	
-	TextBox caixaTexto(50, 3); // Largura 30, Altura 3
-	
 	//padrão
 	draw(screen);
 	system("clear");
@@ -33,14 +31,13 @@ unsigned FaseStart::run(SpriteBuffer &screen)
 		//lendo entrada
 		getline(std::cin,ent);
 		
+		TextBox caixaTexto(50, 3); // Largura 30, Altura 3
+		
 		//processando entradas
 		int posL = hero->getPosL(), posC = hero->getPosC();
 		
-		//checando portal
-		if (hero->colideCom(*tapetePortal)){
-			int teste = 1;
-			
-			caixaTexto.setText("A energia do portal te consome por completo, você sente seu corpo sendo puxado para outro lugar...");
+		if (hero->colideCom(*tapeteHotel)){
+			caixaTexto.setText("A arquitetura desse prédio hotel, não combina com o ambiente ao redor. O vento está batendo contra as janelas de um jeito estranho. O cheiro aqui é diferente.");
 			caixaTexto.show();
 			
 			update();
@@ -49,16 +46,34 @@ unsigned FaseStart::run(SpriteBuffer &screen)
 			show(screen);
 			screen.clear();
 			
-			caixaTexto.setText("Talvez seja hora de partir, deixar tudo para trás...");
+			caixaTexto.setText("Talvez seja para onde eu deva ir...");
 			caixaTexto.show();
 			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("*Você bate na porta do hotel...*");
+			caixaTexto.show();
+			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("*Alguém abre a porta para você...*");
+			caixaTexto.show();
+	
 			system("clear");
 			screen.clear();
 			show(screen);
 			
 			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-			
-			return Fase::LEVEL_COMPLETE;
+
+			return Fase::LEVEL_COMPLETE; // O jogador atravessa o rio!
 		}
 		
 		if (ent == "w" && hero->getPosL() > 10 && teste == 0)
@@ -66,7 +81,7 @@ unsigned FaseStart::run(SpriteBuffer &screen)
 		else if (ent == "s" && hero->getPosL() < screen.getAltura() - 15 && teste == 0)
 			hero->moveDown(2);
 		else if (ent == "a" && hero->getPosC() > 12 && teste == 0)
-			hero->moveLeft(5);
+			hero->moveLeft(7);
 		else if (ent == "d" && hero->getPosC() < screen.getLargura() - hero->getSprite()->getLargura() - 13 && teste == 0)
 			hero->moveRight(8);
 		else if (ent == "q")
