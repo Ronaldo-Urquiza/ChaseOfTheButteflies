@@ -47,7 +47,7 @@ unsigned FaseFinal::run(SpriteBuffer &screen)
 			show(screen);
 			screen.clear();
 			
-			caixaTexto.setText("A borboleta da percepção.. A borboleta da interação.. A borboleta do descanso.. A borboleta do sentir..");
+			caixaTexto.setText("A borboleta da percepção.. A borboleta da interação.. A borboleta dos limites.. A borboleta do sentir..");
 			caixaTexto.show();
 			
 			update();

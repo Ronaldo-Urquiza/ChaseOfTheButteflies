@@ -62,6 +62,15 @@ unsigned FaseLevel4::run(SpriteBuffer &screen)
 			caixaTexto.setText("Talvez amanhã seja melhor eu continuar explorando...");
 			caixaTexto.show();
 			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("*Você obteve a borboleta da limites!* Vou guardar isso na minha mochila.");
+			caixaTexto.show();
+			
 			system("clear");
 			screen.clear();
 			show(screen);

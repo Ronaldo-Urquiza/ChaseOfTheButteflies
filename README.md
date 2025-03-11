@@ -1,14 +1,10 @@
-# Save The Princess
-Um jogo desenvolvido com a Engine ASCII para o tutorial de como usar a Engine.
+# Chase Of The Butterflies
 
-Assista o minicurso em https://www.youtube.com/playlist?list=PL9zfef1hSFehpKd9W5iY86MrWlQqW7NCN .
+Para rodar esse jogo você precisa de um terminal linux!
 
-Preferível no Linux.
+Com o diretório instalado e pronto para uso abra seu terminal Linux e digite:
 
-Baixe o projeto no seu PC.
+./makeplay
 
-Faça:
-1) `chmod +x makeplay`
-2) `./makeplay`
-3) Divirta-se
-
+Divirta-se =) 
+- Com carinho, Ron!

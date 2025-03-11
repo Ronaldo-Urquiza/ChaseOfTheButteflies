@@ -107,6 +107,16 @@ unsigned FaseLevel3::run(SpriteBuffer &screen)
 			caixaTexto.show();
 		}
 		else if(hero->colideCom(*tapeteEscada) && interagir>=4){
+			
+			caixaTexto.setText("*Você obteve a borboleta da interação!* Melhor guardar isso na minha mochila.");
+			caixaTexto.show();
+			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+					
 			caixaTexto.setText("Chega de interação por hoje, melhor eu ir descansar...");
 			caixaTexto.show();
 			

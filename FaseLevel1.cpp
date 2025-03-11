@@ -100,6 +100,16 @@ unsigned FaseLevel1::run(SpriteBuffer &screen)
 				
 				// Verificando respostas possíveis
 				if (respostaJogador == "5" || respostaJogador == "cinco") {
+					
+					caixaTexto.setText("*Você obteve a borboleta da percepção!* Melhor guardar isso na minha mochila.");
+					caixaTexto.show();
+					
+					update();
+					draw(screen);
+					system("clear");
+					show(screen);
+					screen.clear();
+			
 					caixaTexto.setText("Muito bem! Você é observador! Agora, veja o poder do meu feitiço...");
 					caixaTexto.show();
 

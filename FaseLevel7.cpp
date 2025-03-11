@@ -159,6 +159,15 @@ unsigned FaseLevel7::run(SpriteBuffer &screen)
 			
 			colidiuMorcego++;
 			interagiuMorcego++;
+			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("*Você obteve a borboleta do sentir!* Melhor guardar isso na minha mochila.");
+			caixaTexto.show();
 		}
 		
 		if (hero->colideCom(*TapeteFase) && interagiuMorcego>0){
