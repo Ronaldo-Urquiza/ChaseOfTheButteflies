@@ -10,6 +10,7 @@
 #include "FaseLevel6.hpp"
 #include "FaseLevel7.hpp"
 #include "FaseFinal.hpp"
+#include "Fim.hpp"
 
 #include "ASCII_Engine/Sprite.hpp"
 #include "ASCII_Engine/SpriteAnimado.hpp"
@@ -33,8 +34,9 @@ public:
 		FaseLevel6 fase6("Fase6",SpriteAnimado("rsc/BackgroundFase2.anm",2));
 		FaseLevel7 fase7("Fase7",SpriteAnimado("rsc/BackgroundFase7.anm",2));
 		FaseFinal faseFinal("faseFinal",SpriteAnimado("rsc/BackgroundFaseFinal.anm",2));
+		Fim fim("fim",SpriteAnimado("rsc/fim.anm",2));
 		
-		/*start.init();
+		start.init();
 		start.run(buffer);
 		buffer.clear();
 		
@@ -65,9 +67,13 @@ public:
 		fase7.init();
 		fase7.run(buffer);
 		buffer.clear();
-		*/
+		
 		faseFinal.init();
 		faseFinal.run(buffer);
+		buffer.clear();
+		
+		fim.init();
+		fim.run(buffer);
 		buffer.clear();
 	}
 
