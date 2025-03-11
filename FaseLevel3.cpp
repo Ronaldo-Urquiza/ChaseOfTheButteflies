@@ -68,32 +68,64 @@ unsigned FaseLevel3::run(SpriteBuffer &screen)
 		int posL = hero->getPosL(), posC = hero->getPosC();
 		
 		if (hero->colideCom(*tapeteC4) && colidiuCoelho == 0){
-			caixaTexto.setText("Coelho");
+			caixaTexto.setText("Bem-vindo ao Hotel Lebrú, o melhor e único hotel da… hmmm… bem, do meio do nada! Aceita um quarto? Talvez uma refeição especial?");
 			caixaTexto.show();
+				
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("Temos até serviço de massagem! Por que estou aqui? Ora, querido, a pergunta correta é: por que VOCÊ está aqui?");
+			caixaTexto.show();
+			
 			colidiuCoelho++;
 			interagir++;
 		}
 		else if(hero->colideCom(*tapeteC1) && colidiuCastor == 0){
-			caixaTexto.setText("Castor");
+			caixaTexto.setText("Se esse hotel tivesse um encanamento decente, eu não precisaria consertar o mesmo cano três vezes por semana!");
 			caixaTexto.show();
 			colidiuCastor++;
 			interagir++;
 		}
 		else if(hero->colideCom(*tapeteC2) && colidiuGato == 0){
-			caixaTexto.setText("Gato");
+			caixaTexto.setText("E se você parasse de se preocupar tanto com canos, talvez aproveitasse mais a vida, querido");
 			caixaTexto.show();
 			colidiuGato++;
 			interagir++;
 		}
 		else if(hero->colideCom(*tapeteC3) && colidiuCoruja == 0){
-			caixaTexto.setText("Coruja");
+			caixaTexto.setText("Ah, um humano. Que adorável. Deixa eu adivinhar: você veio buscar respostas? O coelho nunca vai te dar. O castor vai fingir que não sabe. O gato vai te enrolar.");
 			caixaTexto.show();
 			colidiuCoruja++;
 			interagir++;
 		}
-		else if(hero->colideCom(*tapeteEscada)){
-			caixaTexto.setText("Escada");
+		else if(hero->colideCom(*tapeteEscada) && interagir<4){
+			hero->moveLeft(7);
+			caixaTexto.setText("Acho que devo conhecer um pouco melhor esses seres...");
 			caixaTexto.show();
+		}
+		else if(hero->colideCom(*tapeteEscada) && interagir>=4){
+			caixaTexto.setText("Chega de interação por hoje, melhor eu ir descansar...");
+			caixaTexto.show();
+			
+			update();
+			draw(screen);
+			system("clear");
+			show(screen);
+			screen.clear();
+			
+			caixaTexto.setText("*Você se dirige até um quarto do hotel*");
+			caixaTexto.show();
+			
+			system("clear");
+			screen.clear();
+			show(screen);
+			
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
+			return Fase::LEVEL_COMPLETE; // O jogador atravessa o rio!
 		}
 		
 		if (ent == "w" && hero->getPosL() > 10 && teste == 0)
