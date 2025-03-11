@@ -8,7 +8,7 @@
 void FaseStart::init()
 {	
 	//Objetos de jogo
-	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingRight.anm",1),20,160);
+	hero = new ObjetoDeJogo("Hero",SpriteAnimado("rsc/heroWalkingRight.anm",1),20,10);
 	objs.push_back(hero);
 	
 	tapetePortal = new ObjetoDeJogo("TapetePortal",SpriteBuffer(2,20),22,215);

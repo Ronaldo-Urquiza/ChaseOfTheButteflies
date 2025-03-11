@@ -68,7 +68,7 @@ unsigned FaseLevel4::run(SpriteBuffer &screen)
 			show(screen);
 			screen.clear();
 			
-			caixaTexto.setText("*Você obteve a borboleta da limites!* Vou guardar isso na minha mochila.");
+			caixaTexto.setText("*Você obteve a borboleta dos limites!* Vou guardar isso na minha mochila.");
 			caixaTexto.show();
 			
 			system("clear");
